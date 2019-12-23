@@ -13,7 +13,7 @@ public class Main {
         Constructor<BlackBoxInt> constructor = blackBoxIntClass.getDeclaredConstructor();
         constructor.setAccessible(true);
 
-        BlackBoxInt blackBoxInt = (BlackBoxInt) constructor.newInstance();
+        BlackBoxInt blackBoxInt = constructor.newInstance();
         Field innerValue = blackBoxIntClass.getDeclaredField("innerValue");
         innerValue.setAccessible(true);
 
@@ -24,41 +24,43 @@ public class Main {
             String operation = input[0];
             int value = Integer.parseInt(input[1]);
 
+            Method op;
+
             switch (operation) {
                 case "add":
-                    Method add = blackBoxIntClass.getDeclaredMethod("add", int.class);
-                    add.setAccessible(true);
-                    add.invoke(blackBoxInt, value);
+                    op = blackBoxIntClass.getDeclaredMethod("add", int.class);
+                    op.setAccessible(true);
+                    op.invoke(blackBoxInt, value);
                     System.out.println(innerValue.get(blackBoxInt));
                     break;
                 case "subtract":
-                    Method subtract = blackBoxIntClass.getDeclaredMethod("subtract", int.class);
-                    subtract.setAccessible(true);
-                    subtract.invoke(blackBoxInt, value);
+                    op = blackBoxIntClass.getDeclaredMethod("subtract", int.class);
+                    op.setAccessible(true);
+                    op.invoke(blackBoxInt, value);
                     System.out.println(innerValue.get(blackBoxInt));
                     break;
                 case "divide":
-                    Method divide = blackBoxIntClass.getDeclaredMethod("divide", int.class);
-                    divide.setAccessible(true);
-                    divide.invoke(blackBoxInt, value);
+                    op = blackBoxIntClass.getDeclaredMethod("divide", int.class);
+                    op.setAccessible(true);
+                    op.invoke(blackBoxInt, value);
                     System.out.println(innerValue.get(blackBoxInt));
                     break;
                 case "multiply":
-                    Method multiply = blackBoxIntClass.getDeclaredMethod("multiply", int.class);
-                    multiply.setAccessible(true);
-                    multiply.invoke(blackBoxInt, value);
+                    op = blackBoxIntClass.getDeclaredMethod("multiply", int.class);
+                    op.setAccessible(true);
+                    op.invoke(blackBoxInt, value);
                     System.out.println(innerValue.get(blackBoxInt));
                     break;
                 case "rightShift":
-                    Method rightShift = blackBoxIntClass.getDeclaredMethod("rightShift", int.class);
-                    rightShift.setAccessible(true);
-                    rightShift.invoke(blackBoxInt, value);
+                    op = blackBoxIntClass.getDeclaredMethod("rightShift", int.class);
+                    op.setAccessible(true);
+                    op.invoke(blackBoxInt, value);
                     System.out.println(innerValue.get(blackBoxInt));
                     break;
                 case "leftShift":
-                    Method leftShift = blackBoxIntClass.getDeclaredMethod("leftShift", int.class);
-                    leftShift.setAccessible(true);
-                    leftShift.invoke(blackBoxInt, value);
+                    op = blackBoxIntClass.getDeclaredMethod("leftShift", int.class);
+                    op.setAccessible(true);
+                    op.invoke(blackBoxInt, value);
                     System.out.println(innerValue.get(blackBoxInt));
                     break;
             }
