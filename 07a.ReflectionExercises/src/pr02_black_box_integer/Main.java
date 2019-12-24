@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -17,6 +18,8 @@ public class Main {
         Field innerValue = blackBoxIntClass.getDeclaredField("innerValue");
         innerValue.setAccessible(true);
 
+        Method[] methods = blackBoxIntClass.getDeclaredMethods();
+
         Scanner scanner = new Scanner(System.in);
         String line;
         while (!(line = scanner.nextLine()).equals("END")) {
@@ -24,46 +27,15 @@ public class Main {
             String operation = input[0];
             int value = Integer.parseInt(input[1]);
 
-            Method op;
+            Method method = Arrays.stream(methods)
+                    .filter(f -> f.getName().equals(operation))
+                    .findFirst().orElse(null);
 
-            switch (operation) {
-                case "add":
-                    op = blackBoxIntClass.getDeclaredMethod("add", int.class);
-                    op.setAccessible(true);
-                    op.invoke(blackBoxInt, value);
-                    System.out.println(innerValue.get(blackBoxInt));
-                    break;
-                case "subtract":
-                    op = blackBoxIntClass.getDeclaredMethod("subtract", int.class);
-                    op.setAccessible(true);
-                    op.invoke(blackBoxInt, value);
-                    System.out.println(innerValue.get(blackBoxInt));
-                    break;
-                case "divide":
-                    op = blackBoxIntClass.getDeclaredMethod("divide", int.class);
-                    op.setAccessible(true);
-                    op.invoke(blackBoxInt, value);
-                    System.out.println(innerValue.get(blackBoxInt));
-                    break;
-                case "multiply":
-                    op = blackBoxIntClass.getDeclaredMethod("multiply", int.class);
-                    op.setAccessible(true);
-                    op.invoke(blackBoxInt, value);
-                    System.out.println(innerValue.get(blackBoxInt));
-                    break;
-                case "rightShift":
-                    op = blackBoxIntClass.getDeclaredMethod("rightShift", int.class);
-                    op.setAccessible(true);
-                    op.invoke(blackBoxInt, value);
-                    System.out.println(innerValue.get(blackBoxInt));
-                    break;
-                case "leftShift":
-                    op = blackBoxIntClass.getDeclaredMethod("leftShift", int.class);
-                    op.setAccessible(true);
-                    op.invoke(blackBoxInt, value);
-                    System.out.println(innerValue.get(blackBoxInt));
-                    break;
+            if (method != null) {
+                method.setAccessible(true);
+                method.invoke(blackBoxInt, value);
             }
+            System.out.println(innerValue.get(blackBoxInt));
         }
     }
 }
