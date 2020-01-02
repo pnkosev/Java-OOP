@@ -2,8 +2,8 @@ package pr03_barracks_wars_new_factory.data;
 
 import pr03_barracks_wars_new_factory.interfaces.Repository;
 import pr03_barracks_wars_new_factory.interfaces.Unit;
-import jdk.jshell.spi.ExecutionControl;
 
+import javax.naming.OperationNotSupportedException;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -38,8 +38,16 @@ public class UnitRepository implements Repository {
 		return statBuilder.toString();
 	}
 
-	public void removeUnit(String unitType) throws ExecutionControl.NotImplementedException {
-		// TODO: implement for problem 4
-		throw new ExecutionControl.NotImplementedException("message");
+	public void removeUnit(String unitType) throws OperationNotSupportedException {
+		if (!this.amountOfUnits.containsKey(unitType)) {
+			throw new OperationNotSupportedException("No such units in repository.");
+		}
+
+		int newValue = this.amountOfUnits.get(unitType) - 1;
+		if (newValue == -1) {
+			this.amountOfUnits.remove(unitType);
+		} else  {
+			this.amountOfUnits.put(unitType, newValue);
+		}
 	}
 }

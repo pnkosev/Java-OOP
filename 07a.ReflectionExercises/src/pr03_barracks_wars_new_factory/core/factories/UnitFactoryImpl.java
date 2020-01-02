@@ -1,8 +1,8 @@
 package pr03_barracks_wars_new_factory.core.factories;
 
+import jdk.jshell.spi.ExecutionControl;
 import pr03_barracks_wars_new_factory.interfaces.Unit;
 import pr03_barracks_wars_new_factory.interfaces.UnitFactory;
-import jdk.jshell.spi.ExecutionControl;
 
 public class UnitFactoryImpl implements UnitFactory {
 
@@ -11,7 +11,16 @@ public class UnitFactoryImpl implements UnitFactory {
 
 	@Override
 	public Unit createUnit(String unitType) throws ExecutionControl.NotImplementedException {
-		// TODO: implement for problem 3
-		throw new ExecutionControl.NotImplementedException("message");
+		Unit unit = null;
+
+		try {
+			Class<?> clazz = Class.forName(UNITS_PACKAGE_NAME + unitType);
+			unit = (Unit) clazz.getDeclaredConstructor().newInstance();
+
+			return unit;
+		} catch (Exception e) {
+			throw new ExecutionControl.NotImplementedException("message");
+		}
+
 	}
 }
