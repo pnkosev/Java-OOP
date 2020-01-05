@@ -3,7 +3,6 @@ package p01_Database;
 import javax.naming.OperationNotSupportedException;
 
 public class Database {
-
     private Integer[] elements;
     private int elementsCount = 0;
     private int index;
