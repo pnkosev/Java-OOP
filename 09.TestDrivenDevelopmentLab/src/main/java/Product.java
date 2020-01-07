@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Product implements Comparable<Product> {
 
     public String label;
@@ -37,7 +39,18 @@ public class Product implements Comparable<Product> {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Product)) {
+            return false;
+        }
+
+        Product product = (Product) o;
+
+        return product.getLabel().equals(this.getLabel());
+    }
+
+    @Override
     public int compareTo(Product o) {
-        throw new UnsupportedOperationException();
+        return (int) (this.getPrice() - o.getPrice());
     }
 }
