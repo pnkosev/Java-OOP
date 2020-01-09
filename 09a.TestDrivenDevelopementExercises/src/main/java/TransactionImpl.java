@@ -1,4 +1,4 @@
-public class TransactionImpl implements Comparable<TransactionImpl>{
+public class TransactionImpl implements Comparable<TransactionImpl>, Transaction{
 
     private int id;
     private TransactionStatus status;
@@ -14,6 +14,50 @@ public class TransactionImpl implements Comparable<TransactionImpl>{
         this.amount = amount;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof TransactionImpl)) {
+            return false;
+        }
+
+        TransactionImpl other = (TransactionImpl) o;
+
+        return this.id == other.id;
+    }
+
+
+
+    @Override
+    public int getId() {
+        return this.id;
+    }
+
+    @Override
+    public TransactionStatus getStatus() {
+        return this.status;
+    }
+
+    @Override
+    public void setStatus(TransactionStatus newStatus) {
+        this.status = newStatus;
+    }
+
+    @Override
+    public double getAmount() {
+        return this.amount;
+    }
+
+    @Override
+    public String getFrom() {
+        return this.from;
+    }
+
+    @Override
+    public String getTo() {
+        return this.to;
+    }
+
+    @Override
     public int compareTo(TransactionImpl o) {
         return 0;
     }
