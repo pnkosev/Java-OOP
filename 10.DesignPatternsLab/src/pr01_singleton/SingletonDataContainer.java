@@ -1,15 +1,17 @@
 package pr01_singleton;
 
-import java.util.HashMap;
+import java.io.Serializable;
 import java.util.Map;
 
-public class SingletonDataContainer implements SingletonContainer {
-    private static SingletonDataContainer instance;
-    private Map<String, Integer> capitals;
+public class SingletonDataContainer implements SingletonContainer, Serializable {
+    private static volatile SingletonDataContainer instance;
 
     private SingletonDataContainer() {
-        this.capitals = new HashMap<>();
-        System.out.println("Initializing singleton object");
+
+        // Prevents from the reflection API
+        if (instance != null) {
+            throw new RuntimeException("Use getInstance() method to get the single instance of the class!");
+        }
     }
 
     @Override
@@ -18,11 +20,18 @@ public class SingletonDataContainer implements SingletonContainer {
     }
 
     public static SingletonDataContainer getInstance() {
-        if (instance != null) {
-            return instance;
+        if (instance == null) { // If there is no instance available- create new one
+            synchronized (SingletonDataContainer.class) {
+                if (instance == null) {
+                    instance = new SingletonDataContainer();
+                }
+            }
         }
 
-        instance = new SingletonDataContainer();
+        return instance;
+    }
+
+    protected Object readResolve() {
         return instance;
     }
 }
